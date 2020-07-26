@@ -15,6 +15,7 @@
 	model = "Freescale i.MX6 ULL 14x14 EVK Board";
 	compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
 
+	/* fire heartbeat led */
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
@@ -28,6 +29,7 @@
 		};
 	};
 
+	/* fire led R */
 	shunled {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -35,6 +37,17 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_led>;
 		led-gpio = <&gpio1 4 GPIO_ACTIVE_LOW>;
+		status = "okay";
+	};
+
+	/* fire beep */
+	beep {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "shun-beep";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_beep>;
+		beep-gpio = <&gpio1 19 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 
@@ -318,13 +331,15 @@
 	imx6ul-evk {
 		pinctrl_led: ledgrp {
 			fsl,pins = <
+				/* fire led R */
 				MX6UL_PAD_GPIO1_IO04__GPIO1_IO04		 0x10B0 /* LEDR */
 			>;
 		};
 		
 		pinctrl_hog_1: hoggrp-1 {
 			fsl,pins = <
-				MX6UL_PAD_UART1_RTS_B__GPIO1_IO19		0x17059 /* SD1 CD */
+				/* be fire beep used */
+				/* MX6UL_PAD_UART1_RTS_B__GPIO1_IO19		0x17059 */ /* SD1 CD */
 				MX6UL_PAD_GPIO1_IO05__USDHC1_VSELECT	0x17059 /* SD1 VSELECT */
 				MX6UL_PAD_GPIO1_IO09__GPIO1_IO09        0x17059 /* SD1 RESET */
 				MX6UL_PAD_GPIO1_IO00__ANATOP_OTG1_ID 	0x13058
@@ -600,8 +615,16 @@
 
 		pinctrl_gpio_leds: gpio-leds {
 			fsl,pins = <
+				/* fire led heartbeat  */
 				/*MX6UL_PAD_GPIO1_IO03__GPIO1_IO03 0x17059*/
 				MX6ULL_PAD_SNVS_TAMPER3__GPIO5_IO03 0X17059
+			>;
+		};
+
+		pinctrl_beep: beepgrp {
+			fsl,pins = <
+				/* beep */
+				MX6UL_PAD_UART1_RTS_B__GPIO1_IO19 0X10B0				
 			>;
 		};
 	};
